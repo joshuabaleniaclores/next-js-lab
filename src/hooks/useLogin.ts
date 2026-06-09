@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { authService } from "@/services/auth.service";
 import { extractApiError } from "@/utils/api-error";
 import { useAuthStore } from "@/store/auth.store";
-import type { LoginPayload } from "@/types/api.types";
+import type { LoginPayload } from "@/types/auth.types";
 
 export function useLogin() {
   const setAuth = useAuthStore((state) => state.setAuth);
