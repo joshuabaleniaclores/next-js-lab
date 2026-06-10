@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Lab
+
+A full-stack learning project built with Next.js App Router, practicing production-grade patterns for authentication, data fetching, state management, and form validation.
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS + shadcn/ui |
+| HTTP Client | Axios |
+| Server State | TanStack Query |
+| Client State | Zustand |
+| Form Handling | React Hook Form |
+| Validation | Zod |
+| Notifications | Sonner |
+| Testing | Jest + ts-jest |
+| API | DummyJSON (https://dummyjson.com) |
+
+## Prerequisites
+
+- Node.js 18+
+- npm
 
 ## Getting Started
 
-First, run the development server:
+**1. Clone the repository**
+
+```bash
+git clone <repo-url>
+cd next-js-lab
+```
+
+**2. Install dependencies**
+
+```bash
+npm install
+```
+
+**3. Set up environment variables**
+
+```bash
+cp .env.example .env.local
+```
+
+Open `.env.local` and fill in the values:
+
+```env
+NEXT_PUBLIC_API_URL=https://dummyjson.com
+```
+
+**4. Run the development server**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Test Credentials
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+username: emilys
+password: emilyspass
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/                    # Next.js App Router pages
+    login/                # Login page
+    dashboard/            # Dashboard page (protected)
+    products/             # Products list + detail pages (protected)
+    error.tsx             # Global error boundary
+    layout.tsx            # Root layout
+  components/
+    ui/                   # shadcn/ui components
+    products/             # Product-specific components
+  hooks/                  # TanStack Query hooks
+  lib/                    # Infrastructure (axios instance)
+  providers/              # React context providers
+  schemas/                # Zod validation schemas
+  services/               # API service functions
+  store/                  # Zustand stores
+  types/                  # TypeScript interfaces
+  utils/                  # Pure utility functions
+  middleware.ts           # Route protection
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Available Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm test             # Run tests
+npm run test:watch   # Run tests in watch mode
+```
 
-## Deploy on Vercel
+## Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The project follows a layered architecture — each layer has one responsibility and only communicates with the layer below it:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+Pages / Components
+  → Hooks (TanStack Query)
+    → Services (axios calls)
+      → Axios Instance (interceptors, auth token)
+        → API (DummyJSON)
+```
+
+## Route Protection
+
+Routes are protected via Next.js middleware (`src/middleware.ts`):
+
+- `/login` — public, redirects to `/dashboard` if already authenticated
+- All other routes — require authentication, redirect to `/login` if not

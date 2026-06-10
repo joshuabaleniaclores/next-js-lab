@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { authService } from "@/services/auth.service";
 import { extractApiError } from "@/utils/api-error";
 import { useAuthStore } from "@/store/auth.store";
-import type { LoginPayload } from "@/types/auth.types";
+import type { AuthResponse, LoginPayload } from "@/types/auth.types";
 
 export function useLogin() {
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -20,12 +20,12 @@ export function useLogin() {
         throw extractApiError(error);
       }
     },
-    onSuccess: (data) => {
+    onSuccess: (data: AuthResponse) => {
       setAuth(data);
       toast.success(`Welcome back, ${data.firstName}!`);
       router.push("/dashboard");
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       toast.error(error.message);
     },
   });
