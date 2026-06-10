@@ -28,3 +28,7 @@ export const addProductSchema = z.object({
 });
 
 export type AddProductFormValues = z.infer<typeof addProductSchema>;
+
+export const updateProductSchema = addProductSchema.partial();
+
+export type UpdateProductFormValues = z.infer<typeof updateProductSchema>;

@@ -2,16 +2,32 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useDeleteProduct } from "@/hooks/useProducts";
 import type { Product } from "@/types/product.types";
 
 interface ProductCardProps {
   product: Product;
+  priority?: boolean;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, priority = false }: ProductCardProps) {
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const { mutate: deleteProduct, isPending } = useDeleteProduct();
+
+  function handleDelete() {
+    if (!confirmDelete) {
+      setConfirmDelete(true);
+      return;
+    }
+    deleteProduct(product.id, {
+      onSuccess: () => setConfirmDelete(false),
+    });
+  }
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="p-0">
@@ -20,6 +36,8 @@ export function ProductCard({ product }: ProductCardProps) {
             src={product.thumbnail}
             alt={product.title}
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+            priority={priority}
             className="object-cover rounded-t-lg"
           />
         </div>
@@ -35,9 +53,18 @@ export function ProductCard({ product }: ProductCardProps) {
           <span className="text-xs text-muted-foreground">★ {product.rating}</span>
         </div>
       </CardContent>
-      <CardFooter className="p-4 pt-0">
-        <Button asChild variant="outline" size="sm" className="w-full">
+      <CardFooter className="p-4 pt-0 flex gap-2">
+        <Button asChild variant="outline" size="sm" className="flex-1">
           <Link href={`/products/${product.id}`}>View Details</Link>
+        </Button>
+        <Button
+          variant={confirmDelete ? "destructive" : "outline"}
+          size="sm"
+          disabled={isPending}
+          onClick={handleDelete}
+          onBlur={() => setConfirmDelete(false)}
+        >
+          {isPending ? "..." : confirmDelete ? "Confirm?" : "Delete"}
         </Button>
       </CardFooter>
     </Card>

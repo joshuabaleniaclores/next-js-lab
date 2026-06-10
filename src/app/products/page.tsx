@@ -70,8 +70,8 @@ export default function ProductsPage() {
               ? Array.from({ length: LIMIT }).map((_, i) => (
                   <ProductCardSkeleton key={i} />
                 ))
-              : data?.products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+              : data?.products.map((product, i) => (
+                  <ProductCard key={product.id} product={product} priority={i === 0} />
                 ))}
           </div>
         </section>

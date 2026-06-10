@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { productService } from "@/services/product.service";
 import { extractApiError } from "@/utils/api-error";
-import type { AddProductPayload, Product } from "@/types/product.types";
+import type { AddProductPayload, UpdateProductPayload, DeletedProduct, Product } from "@/types/product.types";
 
 const PRODUCT_KEYS = {
   all: ["products"] as const,
@@ -54,6 +54,49 @@ export function useAddProduct() {
     onSuccess: (data: Product) => {
       queryClient.invalidateQueries({ queryKey: PRODUCT_KEYS.all });
       toast.success(`"${data.title}" added successfully`);
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+}
+
+export function useUpdateProduct() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, payload }: { id: number; payload: UpdateProductPayload }) => {
+      try {
+        return await productService.updateProduct(id, payload);
+      } catch (error) {
+        throw extractApiError(error);
+      }
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: PRODUCT_KEYS.detail(data.id) });
+      queryClient.invalidateQueries({ queryKey: PRODUCT_KEYS.all });
+      toast.success(`"${data.title}" updated successfully`);
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+}
+
+export function useDeleteProduct() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      try {
+        return await productService.deleteProduct(id);
+      } catch (error) {
+        throw extractApiError(error);
+      }
+    },
+    onSuccess: (data: DeletedProduct) => {
+      queryClient.invalidateQueries({ queryKey: PRODUCT_KEYS.all });
+      toast.success(`"${data.title}" deleted successfully`);
     },
     onError: (error: Error) => {
       toast.error(error.message);

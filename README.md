@@ -21,6 +21,15 @@ A full-stack learning project built with Next.js App Router, practicing producti
 | Container Registry | GitHub Container Registry (ghcr.io) |
 | API | DummyJSON (https://dummyjson.com) |
 
+## Features
+
+- **Authentication** — login with JWT, protected routes via middleware, session persisted in Zustand + cookie
+- **Products** — full CRUD: list with pagination, detail view, add, edit, delete
+- **Error handling** — normalized API errors, global error boundary with retry
+- **Loading states** — skeleton loaders matching component shapes
+- **Notifications** — toast feedback on all mutations (Sonner)
+- **Form validation** — client-side Zod schemas with react-hook-form
+
 ## Prerequisites
 
 - Node.js 18+
@@ -81,7 +90,7 @@ src/
     layout.tsx            # Root layout
   components/
     ui/                   # shadcn/ui components
-    products/             # Product-specific components
+    products/             # product-card, add/update dialogs, skeletons
   hooks/                  # TanStack Query hooks
   lib/                    # Infrastructure (axios instance)
   providers/              # React context providers

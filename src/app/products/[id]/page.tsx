@@ -1,19 +1,29 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { useProduct } from "@/hooks/useProducts";
+import { useProduct, useDeleteProduct } from "@/hooks/useProducts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ProductDetailSkeleton } from "@/components/products/product-detail-skeleton";
+import { UpdateProductDialog } from "@/components/products/update-product-dialog";
 import type { ApiError } from "@/types/api.types";
 
 export default function ProductDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const { data: product, isLoading, error } = useProduct(Number(id));
+  const { mutate: deleteProduct, isPending: isDeleting } = useDeleteProduct();
+
+  function handleDelete() {
+    if (!product) return;
+    deleteProduct(product.id, {
+      onSuccess: () => router.push("/products"),
+    });
+  }
 
   return (
     <main className="min-h-screen bg-gray-50 p-8">
@@ -38,6 +48,8 @@ export default function ProductDetailPage() {
                   src={product.thumbnail}
                   alt={product.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
                   className="object-cover rounded-lg"
                 />
               </div>
@@ -96,6 +108,18 @@ export default function ProductDetailPage() {
                     ))}
                   </section>
                 )}
+
+                <footer className="flex gap-2 pt-2">
+                  <UpdateProductDialog product={product} />
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    disabled={isDeleting}
+                    onClick={handleDelete}
+                  >
+                    {isDeleting ? "Deleting..." : "Delete"}
+                  </Button>
+                </footer>
               </div>
             </div>
           </article>

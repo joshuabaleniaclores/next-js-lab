@@ -3,44 +3,65 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAddProduct } from "@/hooks/useProducts";
-import { addProductSchema, type AddProductFormValues } from "@/schemas/product.schema";
+import { useUpdateProduct } from "@/hooks/useProducts";
+import { updateProductSchema, type UpdateProductFormValues } from "@/schemas/product.schema";
+import type { Product } from "@/types/product.types";
 
-export function AddProductDialog() {
+interface UpdateProductDialogProps {
+  product: Product;
+}
+
+export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
   const [open, setOpen] = useState(false);
-  const { mutate: addProduct, isPending } = useAddProduct();
+  const { mutate: updateProduct, isPending } = useUpdateProduct();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<AddProductFormValues>({
-    resolver: zodResolver(addProductSchema),
+  } = useForm<UpdateProductFormValues>({
+    resolver: zodResolver(updateProductSchema),
+    defaultValues: {
+      title: product.title,
+      price: product.price,
+      category: product.category,
+      brand: product.brand,
+    },
   });
 
-  function onSubmit(values: AddProductFormValues) {
-    addProduct(values, {
-      onSuccess: () => {
-        reset();
-        setOpen(false);
-      },
-    });
+  function onSubmit(values: UpdateProductFormValues) {
+    updateProduct(
+      { id: product.id, payload: values },
+      {
+        onSuccess: () => {
+          reset();
+          setOpen(false);
+        },
+      }
+    );
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add Product</Button>
+        <Button variant="outline" size="sm">Edit</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Product</DialogTitle>
-          <DialogDescription>Fill in the details to add a new product.</DialogDescription>
+          <DialogTitle>Edit Product</DialogTitle>
+          <DialogDescription>Update the details for {product.title}.</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <section className="space-y-2">
@@ -107,7 +128,7 @@ export function AddProductDialog() {
               Cancel
             </Button>
             <Button type="submit" disabled={isPending} aria-busy={isPending}>
-              {isPending ? "Adding..." : "Add Product"}
+              {isPending ? "Saving..." : "Save Changes"}
             </Button>
           </footer>
         </form>
