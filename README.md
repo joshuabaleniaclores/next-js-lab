@@ -1,6 +1,6 @@
 # Next.js Lab
 
-A full-stack learning project built with Next.js App Router, practicing production-grade patterns for authentication, data fetching, state management, and form validation.
+A full-stack learning project built with Next.js App Router, practicing production-grade patterns for authentication, data fetching, state management, form validation, testing, and CI/CD.
 
 ## Tech Stack
 
@@ -16,12 +16,16 @@ A full-stack learning project built with Next.js App Router, practicing producti
 | Validation | Zod |
 | Notifications | Sonner |
 | Testing | Jest + ts-jest |
+| Containerization | Docker |
+| CI/CD | GitHub Actions |
+| Container Registry | GitHub Container Registry (ghcr.io) |
 | API | DummyJSON (https://dummyjson.com) |
 
 ## Prerequisites
 
 - Node.js 18+
 - npm
+- Docker (optional — for running via container)
 
 ## Getting Started
 
@@ -98,6 +102,54 @@ npm run start        # Start production server
 npm run lint         # Run ESLint
 npm test             # Run tests
 npm run test:watch   # Run tests in watch mode
+```
+
+## Running with Docker
+
+**Build the image**
+
+```bash
+docker build -t next-js-lab .
+```
+
+**Run the container**
+
+```bash
+docker run -p 3000:3000 -e NEXT_PUBLIC_API_URL=https://dummyjson.com next-js-lab
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## CI/CD Pipeline
+
+The project uses GitHub Actions with two jobs:
+
+### `ci` job — runs on every push and pull request
+```
+tsc --noEmit   → type check
+lint           → ESLint
+test           → Jest with coverage report
+next build     → verify the app compiles
+```
+
+### `docker` job — runs only on push to main (after ci passes)
+```
+docker build   → multi-stage build via Dockerfile
+docker push    → pushes image to ghcr.io
+```
+
+### Before pushing to main, run locally:
+
+```bash
+npx tsc --noEmit && npm run lint && npm test && npm run build
+```
+
+### GitHub secret required
+
+```
+Settings → Secrets and variables → Actions → New repository secret
+Name:  NEXT_PUBLIC_API_URL
+Value: https://dummyjson.com
 ```
 
 ## Architecture
