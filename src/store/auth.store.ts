@@ -17,7 +17,9 @@ export const useAuthStore = create<AuthState>()(
       accessToken: null,
       refreshToken: null,
       setAuth: (data) => {
-        document.cookie = `access_token=${data.accessToken}; path=/; max-age=${60 * 60 * 24 * 7}`;
+        if (typeof window !== "undefined") {
+          document.cookie = `access_token=${data.accessToken}; path=/; max-age=${60 * 60 * 24 * 7}`;
+        }
         set({
           user: {
             id: data.id,
@@ -33,7 +35,9 @@ export const useAuthStore = create<AuthState>()(
         });
       },
       clearAuth: () => {
-        document.cookie = "access_token=; path=/; max-age=0";
+        if (typeof window !== "undefined") {
+          document.cookie = "access_token=; path=/; max-age=0";
+        }
         set({ user: null, accessToken: null, refreshToken: null });
       },
     }),

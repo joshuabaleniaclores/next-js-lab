@@ -16,8 +16,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { getPageNumbers } from "@/utils/pagination";
+import { isApiError } from "@/utils/api-error";
 import { cn } from "@/lib/utils";
-import type { ApiError } from "@/types/api.types";
 import { Product } from "@/types/product.types";
 
 const AddProductDialog = dynamic(
@@ -61,7 +61,7 @@ export default function ProductsPage() {
 
         {error && (
           <p role="alert" className="text-sm text-red-500">
-            {(error as unknown as ApiError).message}
+            {isApiError(error) ? error.message : "An unexpected error occurred"}
           </p>
         )}
 

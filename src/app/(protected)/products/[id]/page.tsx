@@ -3,13 +3,14 @@
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowLeft, Trash2 } from "lucide-react";
 import { useProduct, useDeleteProduct } from "@/hooks/useProducts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ProductDetailSkeleton } from "@/components/products/product-detail-skeleton";
 import { UpdateProductDialog } from "@/components/products/update-product-dialog";
-import type { ApiError } from "@/types/api.types";
+import { isApiError } from "@/utils/api-error";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -29,12 +30,22 @@ export default function ProductDetailPage() {
     <main className="p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         <Button asChild variant="outline" size="sm">
-          <Link href="/products">← Back to Products</Link>
+          <Link href="/products"><ArrowLeft size={15} />Back to Products</Link>
         </Button>
 
-        {error && (
+        {error && isApiError(error) && error.statusCode === 404 ? (
+          <div className="text-center space-y-4 py-12">
+            <p className="text-lg font-medium">Product not found</p>
+            <p className="text-sm text-muted-foreground">
+              This product does not exist or has been deleted.
+            </p>
+            <Button asChild variant="outline">
+              <Link href="/products">Back to Products</Link>
+            </Button>
+          </div>
+        ) : error && (
           <p role="alert" className="text-sm text-red-500">
-            {(error as unknown as ApiError).message}
+            {isApiError(error) ? error.message : "An unexpected error occurred"}
           </p>
         )}
 
@@ -117,6 +128,7 @@ export default function ProductDetailPage() {
                     disabled={isDeleting}
                     onClick={handleDelete}
                   >
+                    <Trash2 size={15} />
                     {isDeleting ? "Deleting..." : "Delete"}
                   </Button>
                 </div>

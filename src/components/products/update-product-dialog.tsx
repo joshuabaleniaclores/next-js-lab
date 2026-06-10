@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Pencil, X, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -56,7 +57,7 @@ export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">Edit</Button>
+        <Button variant="outline" size="sm"><Pencil size={15} />Edit</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -125,10 +126,10 @@ export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
               onClick={() => setOpen(false)}
               disabled={isPending}
             >
-              Cancel
+              <X size={15} />Cancel
             </Button>
             <Button type="submit" disabled={isPending} aria-busy={isPending}>
-              {isPending ? "Saving..." : "Save Changes"}
+              {isPending ? "Saving..." : <><Save size={15} />Save Changes</>}
             </Button>
           </div>
         </form>

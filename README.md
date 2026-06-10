@@ -26,10 +26,11 @@ A full-stack learning project built with Next.js App Router, practicing producti
 - **Authentication** — login with JWT, protected routes via middleware, session persisted in Zustand + cookie
 - **Navigation** — sticky navbar with active link highlighting, user info, and logout
 - **Products** — full CRUD: list with pagination, detail view, add, edit, delete
-- **Error handling** — normalized API errors, global error boundary with retry
-- **Loading states** — skeleton loaders matching component shapes
+- **Error handling** — normalized API errors, global error boundary with retry, 404 page
+- **Loading states** — skeleton loaders per route via `loading.tsx` and `isLoading` states
 - **Notifications** — toast feedback on all mutations (Sonner)
 - **Form validation** — client-side Zod schemas with react-hook-form
+- **Icons** — Lucide React icons on all interactive elements
 
 ## Prerequisites
 
@@ -87,9 +88,14 @@ src/
     (protected)/          # Route group — shared navbar layout, no URL impact
       layout.tsx          # Navbar wrapper for all protected pages
       dashboard/          # /dashboard
-      products/           # /products and /products/[id]
+        loading.tsx       # Dashboard loading skeleton
+      products/           # /products
+        loading.tsx       # Products loading skeleton
+        [id]/             # /products/[id]
+          loading.tsx     # Product detail loading skeleton
     login/                # /login (public)
     error.tsx             # Global error boundary
+    not-found.tsx         # Global 404 page
     layout.tsx            # Root layout (providers, fonts)
   components/
     ui/                   # shadcn/ui components

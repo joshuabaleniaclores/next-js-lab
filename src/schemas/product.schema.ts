@@ -29,6 +29,30 @@ export const addProductSchema = z.object({
 
 export type AddProductFormValues = z.infer<typeof addProductSchema>;
 
-export const updateProductSchema = addProductSchema.partial();
+export const updateProductSchema = z.object({
+  title: z
+    .string()
+    .min(VALIDATION.TITLE_MIN, "Title cannot be empty")
+    .max(VALIDATION.TITLE_MAX, `Title must be at most ${VALIDATION.TITLE_MAX} characters`)
+    .trim()
+    .optional(),
+  price: z
+    .number({ error: "Price must be a number" })
+    .min(VALIDATION.PRICE_MIN, `Price must be at least $${VALIDATION.PRICE_MIN}`)
+    .optional(),
+  category: z
+    .string()
+    .min(VALIDATION.CATEGORY_MIN, "Category cannot be empty")
+    .trim()
+    .optional(),
+  brand: z
+    .string()
+    .min(VALIDATION.BRAND_MIN, "Brand cannot be empty")
+    .trim()
+    .optional(),
+}).refine(
+  (data) => Object.values(data).some((v) => v !== undefined),
+  { message: "At least one field must be provided" }
+);
 
 export type UpdateProductFormValues = z.infer<typeof updateProductSchema>;

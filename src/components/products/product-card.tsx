@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Eye, Trash2 } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -55,7 +56,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
       </CardContent>
       <CardFooter className="p-4 pt-0 flex gap-2">
         <Button asChild variant="outline" size="sm" className="flex-1">
-          <Link href={`/products/${product.id}`}>View Details</Link>
+          <Link href={`/products/${product.id}`}><Eye size={15} />View Details</Link>
         </Button>
         <Button
           variant={confirmDelete ? "destructive" : "outline"}
@@ -64,6 +65,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
           onClick={handleDelete}
           onBlur={() => setConfirmDelete(false)}
         >
+          <Trash2 size={15} />
           {isPending ? "..." : confirmDelete ? "Confirm?" : "Delete"}
         </Button>
       </CardFooter>

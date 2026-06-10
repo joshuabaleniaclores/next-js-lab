@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { LayoutDashboard, Package, LogOut } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Products", href: "/products" },
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Products", href: "/products", icon: Package },
 ];
 
 export function Navbar() {
@@ -29,18 +30,19 @@ export function Navbar() {
             Next.js Lab
           </Link>
           <ul className="flex items-center gap-4">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
+            {NAV_LINKS.map(({ label, href, icon: Icon }) => (
+              <li key={href}>
                 <Link
-                  href={link.href}
+                  href={href}
                   className={cn(
-                    "text-sm transition-colors hover:text-foreground",
-                    pathname === link.href
+                    "flex items-center gap-1.5 text-sm transition-colors hover:text-foreground",
+                    pathname === href
                       ? "text-foreground font-medium"
                       : "text-muted-foreground"
                   )}
                 >
-                  {link.label}
+                  <Icon size={15} />
+                  {label}
                 </Link>
               </li>
             ))}
@@ -54,6 +56,7 @@ export function Navbar() {
             </span>
           )}
           <Button variant="outline" size="sm" onClick={handleLogout}>
+            <LogOut size={15} />
             Logout
           </Button>
         </div>

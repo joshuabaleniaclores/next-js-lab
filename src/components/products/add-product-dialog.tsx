@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus, X, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,7 +36,7 @@ export function AddProductDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add Product</Button>
+        <Button><Plus size={15} />Add Product</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -104,10 +105,10 @@ export function AddProductDialog() {
               onClick={() => setOpen(false)}
               disabled={isPending}
             >
-              Cancel
+              <X size={15} />Cancel
             </Button>
             <Button type="submit" disabled={isPending} aria-busy={isPending}>
-              {isPending ? "Adding..." : "Add Product"}
+              {isPending ? "Adding..." : <><Check size={15} />Add Product</>}
             </Button>
           </div>
         </form>
