@@ -33,7 +33,7 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-            <section className="space-y-2">
+            <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
               <Input
                 id="username"
@@ -49,9 +49,9 @@ export default function LoginPage() {
                   {errors.username.message}
                 </p>
               )}
-            </section>
+            </div>
 
-            <section className="space-y-2">
+            <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
@@ -67,7 +67,7 @@ export default function LoginPage() {
                   {errors.password.message}
                 </p>
               )}
-            </section>
+            </div>
 
             <Button type="submit" className="w-full" disabled={isPending} aria-busy={isPending}>
               {isPending ? "Logging in..." : "Login"}

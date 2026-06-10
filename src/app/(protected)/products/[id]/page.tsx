@@ -26,7 +26,7 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 p-8">
+    <main className="p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         <Button asChild variant="outline" size="sm">
           <Link href="/products">← Back to Products</Link>
@@ -43,7 +43,7 @@ export default function ProductDetailPage() {
         ) : product ? (
           <article>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="relative w-full h-96">
+              <figure className="relative w-full h-96">
                 <Image
                   src={product.thumbnail}
                   alt={product.title}
@@ -52,7 +52,7 @@ export default function ProductDetailPage() {
                   priority
                   className="object-cover rounded-lg"
                 />
-              </div>
+              </figure>
 
               <div className="space-y-4">
                 <div className="space-y-1">
@@ -103,13 +103,13 @@ export default function ProductDetailPage() {
 
                 {product.tags.length > 0 && (
                   <section aria-label="Tags" className="flex flex-wrap gap-2">
-                    {product.tags.map((tag) => (
+                    {product.tags.map((tag: string) => (
                       <Badge key={tag} variant="outline">{tag}</Badge>
                     ))}
                   </section>
                 )}
 
-                <footer className="flex gap-2 pt-2">
+                <div className="flex gap-2 pt-2">
                   <UpdateProductDialog product={product} />
                   <Button
                     variant="destructive"
@@ -119,7 +119,7 @@ export default function ProductDetailPage() {
                   >
                     {isDeleting ? "Deleting..." : "Delete"}
                   </Button>
-                </footer>
+                </div>
               </div>
             </div>
           </article>

@@ -24,6 +24,7 @@ A full-stack learning project built with Next.js App Router, practicing producti
 ## Features
 
 - **Authentication** — login with JWT, protected routes via middleware, session persisted in Zustand + cookie
+- **Navigation** — sticky navbar with active link highlighting, user info, and logout
 - **Products** — full CRUD: list with pagination, detail view, add, edit, delete
 - **Error handling** — normalized API errors, global error boundary with retry
 - **Loading states** — skeleton loaders matching component shapes
@@ -82,14 +83,17 @@ password: emilyspass
 
 ```
 src/
-  app/                    # Next.js App Router pages
-    login/                # Login page
-    dashboard/            # Dashboard page (protected)
-    products/             # Products list + detail pages (protected)
+  app/
+    (protected)/          # Route group — shared navbar layout, no URL impact
+      layout.tsx          # Navbar wrapper for all protected pages
+      dashboard/          # /dashboard
+      products/           # /products and /products/[id]
+    login/                # /login (public)
     error.tsx             # Global error boundary
-    layout.tsx            # Root layout
+    layout.tsx            # Root layout (providers, fonts)
   components/
     ui/                   # shadcn/ui components
+    layout/               # Navbar
     products/             # product-card, add/update dialogs, skeletons
   hooks/                  # TanStack Query hooks
   lib/                    # Infrastructure (axios instance)

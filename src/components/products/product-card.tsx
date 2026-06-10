@@ -15,7 +15,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, priority = false }: ProductCardProps) {
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const { mutate: deleteProduct, isPending } = useDeleteProduct();
 
   function handleDelete() {
@@ -31,7 +31,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
   return (
     <Card className="flex flex-col">
       <CardHeader className="p-0">
-        <div className="relative w-full h-48">
+        <figure className="relative w-full h-48">
           <Image
             src={product.thumbnail}
             alt={product.title}
@@ -40,7 +40,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
             priority={priority}
             className="object-cover rounded-t-lg"
           />
-        </div>
+        </figure>
       </CardHeader>
       <CardContent className="flex-1 p-4 space-y-2">
         <div className="flex items-start justify-between gap-2">

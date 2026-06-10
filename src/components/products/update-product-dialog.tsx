@@ -64,7 +64,7 @@ export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
           <DialogDescription>Update the details for {product.title}.</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-          <section className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="title">Title</Label>
             <Input
               id="title"
@@ -75,9 +75,9 @@ export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
             {errors.title && (
               <p role="alert" className="text-sm text-red-500">{errors.title.message}</p>
             )}
-          </section>
+          </div>
 
-          <section className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="price">Price</Label>
             <Input
               id="price"
@@ -90,9 +90,9 @@ export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
             {errors.price && (
               <p role="alert" className="text-sm text-red-500">{errors.price.message}</p>
             )}
-          </section>
+          </div>
 
-          <section className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
             <Input
               id="category"
@@ -103,9 +103,9 @@ export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
             {errors.category && (
               <p role="alert" className="text-sm text-red-500">{errors.category.message}</p>
             )}
-          </section>
+          </div>
 
-          <section className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="brand">Brand</Label>
             <Input
               id="brand"
@@ -116,9 +116,9 @@ export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
             {errors.brand && (
               <p role="alert" className="text-sm text-red-500">{errors.brand.message}</p>
             )}
-          </section>
+          </div>
 
-          <footer className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end gap-2 pt-2">
             <Button
               type="button"
               variant="outline"
@@ -130,7 +130,7 @@ export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
             <Button type="submit" disabled={isPending} aria-busy={isPending}>
               {isPending ? "Saving..." : "Save Changes"}
             </Button>
-          </footer>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

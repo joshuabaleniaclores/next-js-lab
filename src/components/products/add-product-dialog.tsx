@@ -43,7 +43,7 @@ export function AddProductDialog() {
           <DialogDescription>Fill in the details to add a new product.</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-          <section className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="title">Title</Label>
             <Input
               id="title"
@@ -54,9 +54,9 @@ export function AddProductDialog() {
             {errors.title && (
               <p role="alert" className="text-sm text-red-500">{errors.title.message}</p>
             )}
-          </section>
+          </div>
 
-          <section className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="price">Price</Label>
             <Input
               id="price"
@@ -69,9 +69,9 @@ export function AddProductDialog() {
             {errors.price && (
               <p role="alert" className="text-sm text-red-500">{errors.price.message}</p>
             )}
-          </section>
+          </div>
 
-          <section className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
             <Input
               id="category"
@@ -82,9 +82,9 @@ export function AddProductDialog() {
             {errors.category && (
               <p role="alert" className="text-sm text-red-500">{errors.category.message}</p>
             )}
-          </section>
+          </div>
 
-          <section className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="brand">Brand</Label>
             <Input
               id="brand"
@@ -95,9 +95,9 @@ export function AddProductDialog() {
             {errors.brand && (
               <p role="alert" className="text-sm text-red-500">{errors.brand.message}</p>
             )}
-          </section>
+          </div>
 
-          <footer className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end gap-2 pt-2">
             <Button
               type="button"
               variant="outline"
@@ -109,7 +109,7 @@ export function AddProductDialog() {
             <Button type="submit" disabled={isPending} aria-busy={isPending}>
               {isPending ? "Adding..." : "Add Product"}
             </Button>
-          </footer>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
