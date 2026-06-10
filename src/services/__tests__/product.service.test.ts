@@ -2,6 +2,7 @@ import { productService } from "../product.service";
 import api from "@/lib/axios";
 
 jest.mock("@/lib/axios", () => ({
+  __esModule: true,
   default: {
     get: jest.fn(),
     post: jest.fn(),
